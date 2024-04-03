@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fundraising Thermometer</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="fundraisingChart" width="400" height="400"></canvas>
+
+  <script>
+    // Sample data for the fundraising thermometer
+    const goalAmount = 10000;
+    let currentAmount = 5000;
+
+    // Update the current amount periodically (e.g., every 5 seconds)
+    setInterval(() => {
+      currentAmount += Math.floor(Math.random() * 100);
+      if (currentAmount >= goalAmount) {
+        currentAmount = goalAmount;
+      }
+
+      updateChart();
+    }, 5000);
+
+    // Function to update the chart with new data
+    function updateChart() {
+      const ctx = document.getElementById('fundraisingChart').getContext('2d');
+
+      const data = {
+        datasets: [{
+          data: [currentAmount, goalAmount - currentAmount],
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(0, 0, 0, 0)'
+          ],
+          borderWidth: 0
+        }]
+      };
+
+      const options = {
+        rotation: Math.PI,
+        circumference: Math.PI,
+        cutoutPercentage: 70,
+        tooltips: { enabled: false },
+        hover: { mode: null },
+        animation: { duration: 0 }
+      };
+
+      const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: options
+      });
+    }
+
+    // Initial chart setup
+    updateChart();
+  </script>
+</body>
+</html>
